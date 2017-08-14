@@ -24,12 +24,14 @@ import com.atypon.wayf.service.HttpRequestExecutor;
 import com.atypon.wayf.service.SerializationHandler;
 import com.atypon.wayf.service.v1.WayfService;
 import com.atypon.wayf.service.v1.WayfSynchronousService;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.request.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,12 +102,20 @@ public class WayfServiceImpl implements WayfSynchronousService {
 
         String encodedLocalId = urlEncode(localId);
 
-        return httpRequestExecutor.execute(
+        IdentityProviderUsage[] result = httpRequestExecutor.execute(
                 Unirest.get(buildUrl(WayfServiceImpl.DEVICE_HISTORY_URL))
                         .header(PUBLISHER_API_TOKEN_HEADER, authorizationHeaderValue)
                         .routeParam(LOCAL_ID_URL_PARAM, encodedLocalId),
-                List.class
+                new IdentityProviderUsage[0].getClass()
         );
+
+        List<IdentityProviderUsage> usageList = new ArrayList<>(result.length);
+
+        for (IdentityProviderUsage usage : result) {
+            usageList.add(usage);
+        }
+
+        return usageList;
     }
 
     @Override

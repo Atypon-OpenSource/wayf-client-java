@@ -35,7 +35,7 @@ import static org.junit.Assert.assertTrue;
 
 public class WayfServiceTest {
     private static final String API_TOKEN = "ef3177ed-17d3-4a54-a7d3-99905c1ec109";
-    private static final String LOCAL_ID = "= K01GfwwD4BWB0lgWScJwIfMZOSIp9Wgsw7i0Gcj7J/8cUKRDktD9/A==";
+    private static final String LOCAL_ID = "e81866da-eb2d-4aaf-a04e-819dd4f5c8cc";
 
     @Test
     @Ignore
@@ -43,7 +43,7 @@ public class WayfServiceTest {
 
         WayfSynchronousService wayf = WayfClient.connect().to(WayfEnvironment.SANDBOX).as(API_TOKEN).synchronously();
 
-        wayf.registerLocalId("= K01GfwwD4BWB0lgWScJwIfMZOSIp9Wgsw7i0Gcj7J/8cUKRDktD9/A==");
+        wayf.registerLocalId(LOCAL_ID);
 
         List<IdentityProviderUsage> usageHistory = wayf.getDeviceHistory(LOCAL_ID);
 
