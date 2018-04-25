@@ -22,13 +22,15 @@ import com.atypon.wayf.data.identity.IdentityProvider;
 import com.atypon.wayf.data.identity.IdentityProviderUsage;
 import com.atypon.wayf.data.identity.OauthEntity;
 import com.atypon.wayf.data.identity.OauthProvider;
+import com.atypon.wayf.data.identity.external.ExternalProvider;
+import com.atypon.wayf.data.identity.external.IdPExternalId;
 import com.atypon.wayf.service.v1.WayfClient;
 import com.atypon.wayf.service.v1.WayfSynchronousService;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -36,10 +38,11 @@ import static org.junit.Assert.assertTrue;
 public class WayfServiceTest {
     private static final String API_TOKEN = "ef3177ed-17d3-4a54-a7d3-99905c1ec109";
     private static final String LOCAL_ID = "e81866da-eb2d-4aaf-a04e-819dd4f5c8cc";
+    private static final String SAMPLE_EXTERNAL_ID = "sample-external-id";
 
     @Test
     @Ignore
-    public void testClient() throws WayfException{
+    public void testClient() throws WayfException {
 
         WayfSynchronousService wayf = WayfClient.connect().to(WayfEnvironment.SANDBOX).as(API_TOKEN).synchronously();
 
@@ -53,8 +56,15 @@ public class WayfServiceTest {
         OauthEntity oauthEntity = new OauthEntity();
         oauthEntity.setProvider(OauthProvider.GOOGLE);
 
+        IdPExternalId externalId = new IdPExternalId();
+        externalId.setProvider(ExternalProvider.RINGGOLD);
+        externalId.setExternalId(SAMPLE_EXTERNAL_ID);
+
+        oauthEntity.setExternalIds(Collections.singletonList(externalId));
+
         IdentityProvider idp = wayf.addIdentityProviderUsage(LOCAL_ID, oauthEntity);
         assertNotNull(idp.getId());
+        assertNotNull(idp.getExternalIds());
 
         wayf.removeIdentityProviderOption(LOCAL_ID, idp.getId());
     }

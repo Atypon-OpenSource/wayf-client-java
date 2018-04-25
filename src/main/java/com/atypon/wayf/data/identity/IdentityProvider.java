@@ -16,11 +16,14 @@
 
 package com.atypon.wayf.data.identity;
 
+import com.atypon.wayf.data.identity.external.IdPExternalId;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.Date;
+import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
@@ -42,6 +45,9 @@ public abstract class IdentityProvider {
     private Date createdDate;
     private Date modifiedDate;
 
+    @JsonProperty("externalIds")
+    private List<IdPExternalId> externalIds;
+
     public IdentityProvider() {
     }
 
@@ -59,6 +65,15 @@ public abstract class IdentityProvider {
 
     public void setName(String name) {
         this.name = name;
+    }
+    @JsonProperty("externalIds")
+    public List<IdPExternalId> getExternalIds() {
+        return externalIds;
+    }
+
+    @JsonProperty("externalIds")
+    public void setExternalIds(List<IdPExternalId> externalIds) {
+        this.externalIds = externalIds;
     }
 
     public Date getCreatedDate() {
