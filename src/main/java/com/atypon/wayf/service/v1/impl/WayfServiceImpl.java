@@ -18,6 +18,7 @@ package com.atypon.wayf.service.v1.impl;
 
 import com.atypon.wayf.data.WayfEnvironment;
 import com.atypon.wayf.data.WayfException;
+import com.atypon.wayf.data.device.Device;
 import com.atypon.wayf.data.identity.IdentityProvider;
 import com.atypon.wayf.data.identity.IdentityProviderUsage;
 import com.atypon.wayf.service.HttpRequestExecutor;
@@ -159,6 +160,22 @@ public class WayfServiceImpl implements WayfSynchronousService {
                         .routeParam(IDP_ID, identityProviderId.toString()),
                 Void.class
         );
+    }
+
+    @Override
+    public String getWayfGlobalId(String localId) throws WayfException {
+        if (localId == null || localId.isEmpty()) {
+            throw new IllegalArgumentException("A non-null and non-empty localId is required to remove an IdentityProvider from a device");
+        }
+        String encodedLocalId = urlEncode(localId);
+        Device device = httpRequestExecutor.execute(
+                Unirest.patch(buildUrl(WayfService.READ_WAYF_GLOBAL_ID))
+                        .header(PUBLISHER_API_TOKEN_HEADER, authorizationHeaderValue)
+                        .routeParam(LOCAL_ID_URL_PARAM, encodedLocalId),
+                Device.class
+        );
+
+        return device.getGlobalId();
     }
 
     private String buildUrl(String requestPath) {

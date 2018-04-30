@@ -38,7 +38,7 @@ import static org.junit.Assert.assertTrue;
 public class WayfServiceTest {
     private static final String API_TOKEN = "ef3177ed-17d3-4a54-a7d3-99905c1ec109";
     private static final String LOCAL_ID = "e81866da-eb2d-4aaf-a04e-819dd4f5c8cc";
-    private static final String SAMPLE_EXTERNAL_ID = "sample-external-id";
+    private static final String SAMPLE_EXTERNAL_ID = "000";
 
     @Test
     @Ignore
@@ -67,5 +67,9 @@ public class WayfServiceTest {
         assertNotNull(idp.getExternalIds());
 
         wayf.removeIdentityProviderOption(LOCAL_ID, idp.getId());
+
+        String hashedGlobalId = wayf.getWayfGlobalId(LOCAL_ID);
+        assertNotNull(hashedGlobalId);
+
     }
 }

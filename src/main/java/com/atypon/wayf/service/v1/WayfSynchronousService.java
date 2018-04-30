@@ -27,4 +27,5 @@ public interface WayfSynchronousService extends  WayfService {
     List<IdentityProviderUsage> getDeviceHistory(String localId) throws WayfException;
     IdentityProvider addIdentityProviderUsage(String localId, IdentityProvider identityProvider) throws WayfException;
     void removeIdentityProviderOption(String localId, Long identityProviderId) throws WayfException;
+    String getWayfGlobalId(String localId) throws WayfException;
 }

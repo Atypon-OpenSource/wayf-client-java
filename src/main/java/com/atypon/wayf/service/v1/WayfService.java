@@ -26,5 +26,6 @@ public interface WayfService {
     String DEVICE_HISTORY_URL = "/1/device/{localId}/history";
     String ADD_IDENTITY_PROVIDER_USAGE_URL = "/1/device/{localId}/history/idp";
     String REMOVE_IDENTITY_PROVIDER_OPTION = "/1/device/{localId}/history/idp/{id}";
+    String READ_WAYF_GLOBAL_ID= "/1/device/{localId}/id";
 
 }
